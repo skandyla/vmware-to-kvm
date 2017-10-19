@@ -10,7 +10,16 @@ So this scripts helps to migrate VMs in [classic way](https://www.linux-kvm.org/
 ## Prerequirements
 GO installed
 
-## Usage:
+## Installation
+```
+export GOPATH=/root/go
+export GOBIN=$GOPATH/bin
+git clone https://github.com/skandyla/vmware-to-kvm 
+cd vmware-to-kvm
+go get
+```
+
+## Usage (Vmware VM to KVM migration):
 
 1. shutdown and copy VM to kvm server (use scp)
 2. launch  

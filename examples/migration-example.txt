@@ -1,0 +1,20 @@
+kvmsrv vmware-to-kvm # ./parser.sh /data/vmware/example-vm/example-vm.vmx
+kvmsrv vmware-to-kvm # go run main.go -config vmx.conf -netDev1 br11 -vcpus 2 -ram 4096
+#Convert image:
+time qemu-img convert -O qcow2 example-ve.local.vmdk /srv/kvm/example-ve.qcow2
+
+#Import image:
+virt-install --connect qemu:///system --name example-ve --ram 4096 --vcpus 2 --os-type=linux  --os-variant=rhel7 --accelerate --hvm --disk  /srv/kvm/example-ve.qcow2,device=disk,bus=ide,format=qcow2 --graphics vnc,keymap=en-us --noautoconsole --import --network bridge=br11,mac='00:50:56:bb:0a:74' --uuid '564d3338-dd9d-2d25-9559-2d6db33bce8a'
+
+kvmsrv vmware-to-kvm # cd /data/vmware/example-vm/
+kvmsrv example-vm # time qemu-img convert -O qcow2 example-ve.local.vmdk /srv/kvm/example-ve.qcow2
+
+real	0m30.808s
+user	0m6.116s
+sys	0m24.793s
+
+kvmsrv example-vm # virt-install --connect qemu:///system --name example-ve --ram 4096 --vcpus 2 --os-type=linux  --os-variant=rhel7 --accelerate --hvm --disk  /srv/kvm/example-ve.qcow2,device=disk,bus=ide,format=qcow2 --graphics vnc,keymap=en-us --noautoconsole --import --network bridge=br11,mac='00:50:56:bb:0a:74' --uuid '564d3338-dd9d-2d25-9559-2d6db33bce8a'
+
+Starting install...
+Creating domain...                                                                                                                                                       |    0 B  00:00:00
+Domain creation completed.
